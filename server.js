@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-
 dotenv.config();
+const Database = require("./database/index");
 
 const app = express();
 
@@ -21,6 +21,13 @@ app.patch("/book/:id", (req, res) => res.status(404).send("patch book"));
 app.delete("/book/:id", (req, res) => res.status(404).send("delete book"));
 
 app.set("host", process.env.HOST);
-app.set("port", process.env.PORT);
 
-app.listen(app.get("port"), () => console.log(`Server listening on PORT ${app.get("port")}`));
+(async () => {
+  try {
+    await Database.getInstance();
+    console.log("Database connected!");
+    app.listen(app.get(process.env.PORT), () => console.log(`Server listening on PORT ${process.env.PORT}`));
+  } catch (error) {
+    console.error(error);
+  }
+})();
