@@ -6,13 +6,19 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowHeaders: ["content-type", "Authorization"],
+  })
+);
 
-app.get("/book", (req, res) => res.send("get book"));
-app.post("/book", (req, res) => res.send("post book"));
-app.put("/book/:id", (req, res) => res.send("put book"));
-app.patch("/book/:id", (req, res) => res.send("patch book"));
-app.delete("/book/:id", (req, res) => res.send("delete book"));
+app.get("/book", (req, res) => res.status(200).send("get book"));
+app.post("/book", (req, res) => res.status(200).send("post book"));
+app.put("/book/:id", (req, res) => res.status(404).send("put book"));
+app.patch("/book/:id", (req, res) => res.status(404).send("patch book"));
+app.delete("/book/:id", (req, res) => res.status(404).send("delete book"));
 
 app.set("host", process.env.HOST);
 app.set("port", process.env.PORT);
