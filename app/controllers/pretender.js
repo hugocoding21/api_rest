@@ -1,6 +1,7 @@
 const { where } = require("sequelize");
 const Pretender = require("../models/Pretender");
-
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 class PretenderController {
   static async createOne(req, res, next) {
     try {
@@ -19,11 +20,31 @@ class PretenderController {
         password,
       });
 
-      return res.status(201).json(newPretender);
+      return res.status(201).json(newPretender), next();
     } catch (error) {
       console.error(error);
       return res.status(500);
     }
+  }
+
+  static async login(req, res, next) {
+    const { email, password } = req.body;
+
+    const pretender = await Pretender.findOne({
+      where: { email },
+    });
+
+    if (!pretender) return res.status(400).json({ message: "invalide" });
+
+    const authValid = bcrypt.compareSync(password, pretender.password);
+    if (!authValid) return res.status(400).json({ message: "mauvais email ou mot de passe" });
+
+    const token = jwt.sign({ email: pretender.email }, process.env.JWT, { expiresIn: "1h" });
+
+    const pretenderDTO = { ...pretender.dataValues, token };
+    delete pretenderDTO.password;
+
+    return res.status(200).json(pretenderDTO);
   }
 
   static async getAll(req, res) {
@@ -45,7 +66,8 @@ class PretenderController {
       } else {
         return res.status(404).json({ message: "le pretender n'exite pas" });
       }
-    } catch {
+    } catch (error) {
+      console.error(error);
       return res.status(500);
     }
   }

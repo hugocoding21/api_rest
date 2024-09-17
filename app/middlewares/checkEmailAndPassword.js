@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-const checkEmail = [
+const checkEmailAndPassword = [
   body("email").isEmail().withMessage("L'email est invalid"),
   body("password").notEmpty().withMessage("Le mot de passe n'est pas complété"),
 
@@ -13,4 +13,4 @@ const checkEmail = [
   },
 ];
 
-module.exports = checkEmail;
+module.exports = checkEmailAndPassword;
