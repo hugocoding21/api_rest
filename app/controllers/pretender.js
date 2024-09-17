@@ -1,7 +1,7 @@
-const { where } = require("sequelize");
 const Pretender = require("../models/Pretender");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { where } = require("sequelize");
 class PretenderController {
   static async createOne(req, res, next) {
     try {
@@ -20,7 +20,7 @@ class PretenderController {
         password,
       });
 
-      return res.status(201).json(newPretender), next();
+      return res.status(201).json(newPretender);
     } catch (error) {
       console.error(error);
       return res.status(500);

@@ -12,5 +12,6 @@ const Pretender = sequelize.define("Pretender", {
   gender: { type: DataTypes.ENUM, values: ["M", "F"] },
   wallet: { type: DataTypes.FLOAT, default: 0 },
 });
-
+// console.log(Pretender === sequelize.models.Pretender);
+// Pretender.sync({ alter: true });
 module.exports = Pretender;

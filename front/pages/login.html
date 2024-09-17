@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link
+      rel="stylesheet"
+      href="../style.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <a href="../index.html">Accueil</a>
+        </li>
+        <li>
+          <a href="./login.html">Login</a>
+        </li>
+      </ul>
+    </nav>
+
+    <h2>Register</h2>
+    <form id="register-form">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        required /><br />
+
+      <label for="password">Mot de passe:</label>
+      <input
+        type="password"
+        id="password"
+        required /><br />
+
+      <button type="submit">Enregistrer</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const baseUrl = `http://${window.location.hostname}:${window.location.port}/api/pretender`;
+
+      document.getElementById("register-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          await axios.post(`${baseUrl}`, { email, password });
+          console.log("Utilisateur enregistré");
+        } catch (error) {
+          console.error("Erreur lors de l'enregistrement de l'utilisateur", error);
+        }
+      });
+    </script>
+  </body>
+</html>

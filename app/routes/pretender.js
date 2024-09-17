@@ -8,14 +8,7 @@ const { param } = require("express-validator");
 
 const router = express.Router();
 
-router.post(
-  "/",
-  checkEmailAndPassword,
-  checkValidationResult,
-  hashPassword,
-  checkValidationResult,
-  PretenderController.createOne
-);
+router.post("/", checkEmailAndPassword, hashPassword, checkValidationResult, PretenderController.createOne);
 router.get("/login", checkEmailAndPassword, checkValidationResult, PretenderController.login);
 router.get("/", PretenderController.getAll);
 router.get("/:id", param("id"), checkAuth, PretenderController.getOneById);

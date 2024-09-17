@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 const Database = require("./database/index");
 const PretenderRoutes = require("./routes/pretender");
 
 const app = express();
+app.use(express.static(path.join(__dirname, "../front")));
 
 app.use(express.json());
 
