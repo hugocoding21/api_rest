@@ -9,5 +9,4 @@ const Message = sequelize.define("Pretender", {
   sender: { type: DataTypes.STRING, allowNull: false },
   receiver: { type: DataTypes.STRING, defaultValue: DataTypes.NOW },
 });
-console.log(Message === sequelize.model.Message);
 Message.sync({ alter: true });

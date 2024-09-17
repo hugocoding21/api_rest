@@ -1,29 +1,22 @@
 const { where } = require("sequelize");
 const Pretender = require("../models/Pretender");
-const bcrypt = require("bcrypt");
 
 class PretenderController {
   static async createOne(req, res, next) {
     try {
       const { email, password } = req.body;
 
-      if (!email || !password) {
-        return res.status(400).json({ message: "Email et password requis" });
-      }
-
       const pretender = await Pretender.findOne({
         where: { email },
       });
 
       if (pretender) {
-        return res.status(400).json({ message: "Ce compte existe déja" });
+        return res.status(400).json({ message: "Ce compte existe déjà" });
       }
-
-      const hashPassword = bcrypt.hashSync(req.body.password, 10);
 
       const newPretender = await Pretender.create({
         email,
-        password: hashPassword,
+        password,
       });
 
       return res.status(201).json(newPretender);
